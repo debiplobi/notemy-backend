@@ -24,6 +24,9 @@ def create_app():
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.config["JWT_ALGORITHM"] = "HS512"
     db.init_app(app)
+    with app.app_context():
+        db.create_all()
+
     JWTManager(app)
 
     app.register_blueprint(auth)
