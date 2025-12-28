@@ -23,6 +23,6 @@ app.route("/api/auth", notemy);
 app.route("/", swagger);
 
 export default {
-  port: 3000,
+  port: 8787,
   fetch: app.fetch,
 };
