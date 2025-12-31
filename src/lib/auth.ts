@@ -1,14 +1,13 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { db } from "../db"; // your Drizzle instance
-
-import { user, session, account, verification } from "../db/schema";
+import { user, session, account, verification } from "@/db/schema";
+import { db } from "@/db";
 
 export const auth = betterAuth({
   baseURL: process.env.BETTER_AUTH_URL,
+
   database: drizzleAdapter(db, {
     provider: "pg",
-
     schema: {
       user,
       session,
@@ -23,14 +22,14 @@ export const auth = betterAuth({
 
   socialProviders: {
     github: {
-      clientId: process.env.GITHUB_CLIENT_ID as string,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
-      redirectURI: process.env.GITHUB_CALLBACK_URI as string,
+      clientId: process.env.GITHUB_CLIENT_ID!,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+      redirectURI: process.env.GITHUB_CALLBACK_URI!,
     },
     google: {
-      clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-      redirectURI: process.env.GOOGLE_CALLBACK_URI as string,
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      redirectURI: process.env.GOOGLE_CALLBACK_URI!,
     },
   },
 });

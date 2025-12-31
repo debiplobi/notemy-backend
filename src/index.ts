@@ -1,6 +1,8 @@
 import { Hono } from "hono";
-import { auth } from "./lib/auth";
+import { auth } from "@/lib/auth";
 import { cors } from "hono/cors";
+import { sendOTP } from "@/routes/auth/sendOTP";
+import verifyOTP from "@/routes/auth/verifyOTP";
 
 const app = new Hono<{
   Variables: {
@@ -40,6 +42,13 @@ app.get("/", (c) => {
 
 app.on(["POST", "GET"], "/api/auth/*", (c) => {
   return auth.handler(c.req.raw);
+});
+
+app.route("/auth", sendOTP);
+app.route("/auth", verifyOTP);
+
+app.get("/_debug/routes", (c) => {
+  return c.json(app.routes.map((r) => r.path));
 });
 
 export default {
