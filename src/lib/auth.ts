@@ -1,4 +1,4 @@
-import { betterAuth } from "better-auth";
+import { betterAuth } from "better-auth/minimal";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { user, session, account, verification } from "@/db/schema";
 import { db } from "@/db";
@@ -30,6 +30,12 @@ export const auth = betterAuth({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
       redirectURI: process.env.GOOGLE_CALLBACK_URI!,
+    },
+  },
+  session: {
+    cookieCache: {
+      enabled: true,
+      maxAge: 5 * 60, // Cache duration in seconds
     },
   },
 });
