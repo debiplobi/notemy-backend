@@ -6,11 +6,6 @@ import { transporter } from "./mailer";
 import { openAPI } from "better-auth/plugins";
 
 export const auth = betterAuth({
-  defaultCookieAttributes: {
-    sameSite: "none",
-    secure: false,
-    partitioned: true, // New browser standards will mandate this for foreign cookies
-  },
   baseURL: process.env.BACKEND_URL,
   trustedOrigins: [process.env.FRONTEND_URL as string],
 
@@ -46,12 +41,10 @@ export const auth = betterAuth({
     github: {
       clientId: process.env.GITHUB_CLIENT_ID!,
       clientSecret: process.env.GITHUB_CLIENT_SECRET!,
-      redirectURI: process.env.GITHUB_CALLBACK_URI!,
     },
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-      redirectURI: process.env.GOOGLE_CALLBACK_URI!,
     },
   },
   session: {
