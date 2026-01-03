@@ -36,17 +36,27 @@ app.use("*", async (c, next) => {
   await next();
 });
 
-app.get("/", (c) => {
-  return c.text("Hello Hono!");
-});
-
 app.on(["POST", "GET"], "/api/auth/*", (c) => {
   return auth.handler(c.req.raw);
 });
 
+app.get("/session", (c) => {
+  const session = c.get("session");
+  const user = c.get("user");
+
+  if (!user) return c.body(null, 401);
+
+  return c.json({
+    session,
+    user,
+  });
+});
+
+app.get("/", (c) => {
+  return c.text("Hello Hono!");
+});
 app.route("/auth", sendOTP);
 app.route("/auth", verifyOTP);
-
 app.get("/_debug/routes", (c) => {
   return c.json(app.routes.map((r) => r.path));
 });

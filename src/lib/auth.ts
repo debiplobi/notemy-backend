@@ -3,8 +3,14 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { user, session, account, verification } from "@/db/schema";
 import { db } from "@/db";
 import { transporter } from "./mailer";
+import { openAPI } from "better-auth/plugins";
 
 export const auth = betterAuth({
+  defaultCookieAttributes: {
+    sameSite: "none",
+    secure: false,
+    partitioned: true, // New browser standards will mandate this for foreign cookies
+  },
   baseURL: process.env.BACKEND_URL,
   trustedOrigins: [process.env.FRONTEND_URL as string],
 
@@ -54,4 +60,5 @@ export const auth = betterAuth({
       maxAge: 5 * 60, // Cache duration in seconds
     },
   },
+  plugins: [openAPI()],
 });
