@@ -30,7 +30,7 @@ export const auth = betterAuth({
       await transporter.sendMail({
         to: user.email,
         from: process.env.MAIL_FROM,
-        subject: "Notemy Email Verification OTP Code",
+        subject: "Notemy Email Verification",
         html: `Click <a href="${url}">here</a> to verify`,
       });
     },
