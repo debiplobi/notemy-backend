@@ -14,7 +14,7 @@ const app = new Hono<{
 app.use(
   "*",
   cors({
-    origin: process.env.BETTER_AUTH_URL!,
+    origin: process.env.FRONTEND_URL!,
     allowHeaders: ["Content-Type", "Authorization"],
     allowMethods: ["POST", "GET", "OPTIONS"],
     exposeHeaders: ["Content-Length"],

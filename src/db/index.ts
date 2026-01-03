@@ -1,6 +1,6 @@
-import { drizzle } from 'drizzle-orm/node-postgres'; // or your adapter
-import { Pool } from 'pg';
-import * as schema from './schema'; // Import ALL your tables
+import { drizzle } from "drizzle-orm/node-postgres";
+import { Pool } from "pg";
+import * as schema from "./schema";
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,

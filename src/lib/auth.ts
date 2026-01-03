@@ -2,9 +2,11 @@ import { betterAuth } from "better-auth/minimal";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { user, session, account, verification } from "@/db/schema";
 import { db } from "@/db";
+import { transporter } from "./mailer";
 
 export const auth = betterAuth({
-  baseURL: process.env.BETTER_AUTH_URL,
+  baseURL: process.env.BACKEND_URL,
+  trustedOrigins: [process.env.FRONTEND_URL as string],
 
   database: drizzleAdapter(db, {
     provider: "pg",
@@ -18,6 +20,20 @@ export const auth = betterAuth({
 
   emailAndPassword: {
     enabled: true,
+    requireEmailVerification: true,
+  },
+
+  emailVerification: {
+    sendOnSignUp: true,
+    autoSignInAfterVerification: true,
+    sendVerificationEmail: async ({ user, url }) => {
+      await transporter.sendMail({
+        to: user.email,
+        from: process.env.MAIL_FROM,
+        subject: "Notemy Email Verification OTP Code",
+        html: `Click <a href="${url}">here</a> to verify`,
+      });
+    },
   },
 
   socialProviders: {
